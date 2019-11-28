@@ -20,7 +20,7 @@ class Media:
         image.enhance(0.5).save('image.png')
         image = Image.open('image.png')
         draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype('Livvic-Regular.ttf', size = 29)
+        font = ImageFont.truetype('Calistoga-Regular.ttf', size = 29)
         w, h = draw.textsize(text, font = font)
         draw.text(((720 - w) / 2, (720 - h) / 2), text, (255, 255, 255), align="center", font = font)
         if author is not None:
