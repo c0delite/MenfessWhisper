@@ -17,7 +17,7 @@ class Media:
         text = textwrap.fill(text, width=35)
         image = Image.open("downloaded_bg.png").filter(ImageFilter.GaussianBlur(5))
         image = ImageEnhance.Brightness(image)
-        image.enhance(0.5).save('image.png')
+        image.enhance(0.75).save('image.png')
         image = Image.open('image.png')
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype('Calistoga-Regular.ttf', size = 29)
