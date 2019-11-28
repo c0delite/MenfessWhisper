@@ -7,7 +7,7 @@ class Media:
         print("Initialize media..")
 
     def download_image(self):
-        url = 'https://picsum.photos/720/1280/?random'
+        url = 'https://picsum.photos/720/720/?random'
         r = requests.get(url = url)
         with open("downloaded_bg.png", 'wb') as f:
             f.write(r.content)
@@ -22,10 +22,10 @@ class Media:
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype('Livvic-Regular.ttf', size = 29)
         w, h = draw.textsize(text, font = font)
-        draw.text(((720 - w) / 2, (1280 - h) / 2), text, (255, 255, 255), align="center", font = font)
+        draw.text(((720 - w) / 2, (720 - h) / 2), text, (255, 255, 255), align="center", font = font)
         if author is not None:
             _author = '@%s' % str(author)
             x, y = draw.textsize(_author, font =  font)
             font = ImageFont.truetype('Livvic-Bold.ttf', size = 29)
-            draw.text(((720 - x) / 2, ((1280 / 2) + h) + 60), _author, (255, 255, 255),font = font, align="bottom")
+            draw.text(((720 - x) / 2, ((720 / 2) + h) + 60), _author, (255, 255, 255),font = font, align="bottom")
         image.save('ready.png')
