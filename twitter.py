@@ -1,6 +1,10 @@
 import tweepy
 import constant
 import time
+import _json
+from requests_oauthlib import OAuth1
+import requests
+import os
 
 class Twitter :
     def __init__(self):
@@ -60,3 +64,18 @@ class Twitter :
         api = self.init_tweepy()
         user = api.get_user(id)
         return user.screen_name
+
+    def post_tweet_with_media(self, tweet, media_url):
+        print("Downloading media...")
+        arr = str(media_url).split('/')
+        auth = OAuth1(client_key=constants.CONSUMER_KEY,
+                      client_secret=constants.CONSUMER_SCRET,
+                      resource_owner_secret=constants.ACCESS_SECRET,
+                      resource_owner_key=constants.ACCESS_KEY)
+        r = requests.get(media_url, auth=auth)
+        with open(arr[9], 'wb') as f:
+            f.write(r.content)
+        print("Media downloaded successfully!")
+        self.api.update_with_media(filename=arr[9], status=tweet)
+        os.remove(arr[9])
+        print("Upload with media success!")
