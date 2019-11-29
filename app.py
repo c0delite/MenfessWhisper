@@ -17,11 +17,11 @@ def start():
 
                 if len(message) is not 0 and len(message) <= 500:
                     if "https://" not in message and "http://" not in message:
-                        if dms[i]['media'] is None:
-                            media.download_image()
-                            media.process_image(message, None)
-                            tw.post_tweet()
+                        if dms[i]['media'] is not None:
+                            print("DM will be posting with media")
+                            tw.post_tweet_with_media(message, dms[i]['media'])
                             tw.delete_dm(id)
+
                         elif "--sender" in message:
                             message = message.replace("--sender", "")
                             screen_name = tw.get_user_screen_name(sender_id)
@@ -35,8 +35,9 @@ def start():
                             tw.post_tweet_text(message)
                             tw.delete_dm(id)
                         else:
-                            print("DM will be posted with media")
-                            tw.post_tweet_with_media(message, dms[i]['media'])
+                            media.download_image()
+                            media.process_image(message, None)
+                            tw.post_tweet()
                             tw.delete_dm(id)
                     else:
                         tw.delete_dm(id)
