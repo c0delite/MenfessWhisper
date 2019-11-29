@@ -76,6 +76,7 @@ class Twitter :
         with open(arr[9], 'wb') as f:
             f.write(r.content)
         print("Media downloaded successfully!")
-        self.api.update_with_media(filename=arr[9], status=tweet)
+        api = self.init_tweepy()
+        api.update_with_media(filename=arr[9], status=tweet)
         os.remove(arr[9])
         print("Upload with media success!")
