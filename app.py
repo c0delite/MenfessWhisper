@@ -1,9 +1,7 @@
 from twitter import Twitter
 import time
-from media import Media
 
 tw = Twitter()
-media = Media()
 def start():
     print("Starting...")
     dms = list()
@@ -17,7 +15,7 @@ def start():
 
                 if len(message) is not 0 and len(message) <= 500:
                     if "https://" not in message and "http://" not in message:
-                        if dms[i]['media'] is not None:
+                        if "--gambar" in message:
                             print("DM will be posting with media")
                             tw.post_tweet_with_media(message, dms[i]['media'])
                             tw.delete_dm(id)
@@ -29,11 +27,13 @@ def start():
                             media.process_image(message, screen_name)
                             tw.post_tweet()
                             tw.delete_dm(id)
+
                         elif "--text" in message:
                             message = message.replace("--text","")
                             print ("DM will post without image")
                             tw.post_tweet_text(message)
                             tw.delete_dm(id)
+
                         else:
                             media.download_image()
                             media.process_image(message, None)
@@ -48,7 +48,6 @@ def start():
             dms = tw.read_dm()
             if len(dms) is 0:
                 time.sleep(60)
-
 
 if __name__ == "__main__":
     start()
