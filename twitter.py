@@ -29,7 +29,7 @@ class Twitter :
 
 
     def read_dm(self):
-        print("Get dms..")
+        print("Get Direct Message..")
         dms = list()
         try:
             api = self.init_tweepy()
@@ -37,10 +37,23 @@ class Twitter :
             for x in range(len(dm)):
                 sender_id = dm[x].message_create['sender_id']
                 message = dm[x].message_create['message_data']['text']
-                d = dict(message = message, sender_id = sender_id, id= dm[x].id)
+                message_data = str(dm[x].message_create['message_data'])
+                json_data = _json.encode_basestring(message_data)
+                print("Getting message -> "+str(message)+" by sender id "+str(sender_id))
+
+            if "attachment" not in json_data:
+                print("Dm does not have any media...")
+                d = dict(message=message, sender_id=sender_id, id=dm[x].id, media=None)
                 dms.append(d)
                 dms.reverse()
-            print(str(len(dms))+ " collected")
+            else:
+                print("Dm have an attachment..")
+                attachment = dm[x].message_create['message_data']['attachment']
+                d = dict(message=message, sender_id=sender_id, id=dm[x].id, media=attachment['media']['media_url'])
+                dms.append(d)
+                dms.reverse()
+
+            print(str(len(dms)) + " collected")
             time.sleep(60)
             return dms
 
