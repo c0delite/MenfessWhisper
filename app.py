@@ -29,7 +29,7 @@ def start():
                             tw.delete_dm(id)
 
                         elif "[whisp]" in message:
-                            message = message.replace("[whisp]","")
+                            # message = message.replace("[whisp]","")
                             print ("DM will post without image")
                             tw.post_tweet_text(message)
                             tw.delete_dm(id)
