@@ -15,21 +15,21 @@ def start():
 
                 if len(message) is not 0 and len(message) <= 500:
                     if "https://" not in message and "http://" not in message:
-                        if "--gambar" in message:
+                        if "[pic]" in message:
                             print("DM will be posting with media")
                             tw.post_tweet_with_media(message, dms[i]['media'])
                             tw.delete_dm(id)
 
-                        elif "--sender" in message:
-                            message = message.replace("--sender", "")
+                        elif "[sender]" in message:
+                            message = message.replace("[sender]", "")
                             screen_name = tw.get_user_screen_name(sender_id)
                             media.download_image()
                             media.process_image(message, screen_name)
                             tw.post_tweet()
                             tw.delete_dm(id)
 
-                        elif "--text" in message:
-                            message = message.replace("--text","")
+                        elif "[whisp]" in message:
+                            message = message.replace("[whisp]","")
                             print ("DM will post without image")
                             tw.post_tweet_text(message)
                             tw.delete_dm(id)
