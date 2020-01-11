@@ -62,30 +62,29 @@ class Twitter:
             time.sleep(30)
             pass
 
-    def download_image(self,media_url):
-        arr = str(media_url).split('/')
 
+    def post_tweet(self, tweet):
+        self.api.update_status(tweet)
+
+    def post_tweet_with_media(self,tweet,media_url):
+        print("Downloading media...")
+        arr = str(media_url).split('/')
         auth = OAuth1(client_key=constant.CONSUMER_KEY,
                       client_secret=constant.CONSUMER_SECRET,
                       resource_owner_secret=constant.ACCESS_SECRET,
                       resource_owner_key=constant.ACCESS_KEY)
         r = requests.get(media_url, auth=auth)
-        with open(arr[9], 'wb') as photo:
-            photo.write(r.content)
-        image = Image.open(arr[9])
-        image.save("ready.png")
+        with open(arr[9], 'wb') as f:
+            f.write(r.content)
         print("Media downloaded successfully!")
 
-
-    def post_tweet(self, tweet):
-        self.api.update_status(tweet)
-
-    def post_tweet_with_media(self, message):
         print('Menyiapkan text twit')
         time.sleep(5)
-        result = re.sub(r"http\S+", "", str(message))
+        result = re.sub(r"http\S+", "", str(tweet))
         print(str(result))
-        media = self.api.media_upload('ready.png')
-        tweet = result
-        self.api.update_status(status = tweet, media_ids=[media.media_id])
-        print("Update tweet sukses...")
+        time.sleep(5)
+
+
+        self.api.update_with_media(filename=arr[9], status=result)
+        os.remove(arr[9])
+        print("Upload with media success!")
