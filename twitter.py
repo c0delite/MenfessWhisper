@@ -88,3 +88,4 @@ class Twitter:
         self.api.update_with_media(filename=arr[9], status=result)
         os.remove(arr[9])
         print("Upload with media success!")
+        #push
